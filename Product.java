@@ -9,7 +9,7 @@
 public class Product
 {
     // instance variables - replace the example below with your own
-    public String name;
+    public String pname;
     public String category;
     public int price;
     public String provider;
@@ -23,7 +23,7 @@ public class Product
     public Product()
     {
         // initialise instance variables
-        this.name = "";
+        this.pname = "";
         this.category = "";
         this.price = 0;
         this.provider = "";
@@ -35,7 +35,7 @@ public class Product
     }
     public Product(String name, String category, int price, String provider, String stock, int shelflife)  
     {
-        this.name = name;
+        this.pname = pname;
         this.category = category;
         this.price = price;
         this.provider = provider;
