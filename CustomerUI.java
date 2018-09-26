@@ -13,11 +13,11 @@ public class CustomerUI extends JDialog
 {
     // instance variables - replace the example below with your own
     public Customer customer;
-    public JPanel jp1,jp2,jp3,jp4;
-    public JLabel jlbcate,jlblocaltion,jlbsarary,jlbnewcate;
-    public JTextField jtflocaltion,jtfsarary;
+    public JPanel jp1,jp2,jp3;
+    public JLabel jlbcate,jlbname,jlbnewcate;
+    public JTextField jtfname;
     JComboBox  jtfcate;
-    public JButton jbback,jbexit,jbcreate,jbmodify,jbdel,jbsearch,jbsend,jbrecv;
+    public JButton jbback,jbexit,jbmodify,jbsearch;
     private String oldcate="";
     public JPasswordField jtfpwd1,jtfpwd2;
 
@@ -31,68 +31,224 @@ public class CustomerUI extends JDialog
         jp1 = new JPanel();
         jp2 = new JPanel();
         jp3 = new JPanel();
-        jp4 = new JPanel();
+        
         
         jbback=new JButton("Back");
         jbexit=new JButton("Exit");
 		
-        jbcreate=new JButton("Create");
-        jbmodify=new JButton("Modify");
-        jbdel=new JButton("Delete");
-
-		
-        jbsearch=new JButton("Jobs");
-        jbsend=new JButton("Send");
-        jbrecv=new JButton("Receive");
         
+        jbmodify=new JButton("Modify");
+               
         jlbcate=new JLabel("Category");
-        jlblocaltion=new JLabel("ProduName");
-        jlbsarary=new JLabel("Sarary"); 
+        jlbname=new JLabel("ProductName");
+        jbsearch=new JButton("Search");
+        
         
         
         jtfcate=new JComboBox();
-        jtflocaltion =new JTextField(10);
-        jtfsarary=new JTextField(10);
+        jtfname =new JTextField(10);
+        
           
-        this.setLayout(new GridLayout(4, 1));
+        this.setLayout(new GridLayout(3, 1));
         
         initcate();
-		getSkill();
+	getSkill();
           
         jp1.add(jlbcate);  
         jp1.add(jtfcate); 
-        jp1.add(jlblocaltion);  
-        jp1.add(jtflocaltion);
-        jp1.add(jlbsarary);
-        jp1.add(jtfsarary); 
-        jp2.add(jbcreate);
+        jp1.add(jlbname);  
+        jp1.add(jtfname);
         jp2.add(jbmodify); 
-        jp2.add(jbdel);
-        jp3.add(jbsearch);
+        jp1.add(jbsearch);
         //jp3.add(jbsend);
-        jp3.add(jbrecv);
-        jp4.add(jbback);
-        jp4.add(jbexit); 
+        ;
+        jp3.add(jbback);
+        jp3.add(jbexit); 
           
         this.add(jp1);  
         this.add(jp2);  
         this.add(jp3); 
-        this.add(jp4);  
+          
 
-		jtfcate.setEditable(true);
+	jtfcate.setEditable(true);
         
+	jbsearch.addActionListener(new ActionListener() 
+        {
+           @Override
+            public void actionPerformed(ActionEvent e) {
+                try
+                {
+                search();
+                }
+                catch(Exception ex)
+                {
+                    MyMsgBox mbox = new MyMsgBox(ex.getMessage());
+                }
+            }
+        }); 
+		
         
+		
+       
+        
+        jbback.addActionListener(new ActionListener() 
+        {
+           @Override
+            public void actionPerformed(ActionEvent e) {
+                try
+                {
+                   dispose();
+                }
+                catch(Exception ex)
+                {
+                    MyMsgBox mbox = new MyMsgBox(ex.getMessage());
+                }
+            }
+        }); 
+        
+        jbexit.addActionListener(new ActionListener() 
+        {
+           @Override
+            public void actionPerformed(ActionEvent e) {
+                try
+                {
+                    exit();
+                }
+                catch(Exception ex)
+                {
+                    MyMsgBox mbox = new MyMsgBox(ex.getMessage());
+                }
+            }
+        }); 
+          
+        
+        jbmodify.addActionListener(new ActionListener() 
+        {
+           @Override
+            public void actionPerformed(ActionEvent e) {
+                try
+                {
+                    modify();
+                }
+                catch(Exception ex)
+                {
+                    MyMsgBox mbox = new MyMsgBox(ex.getMessage());
+                }
+            }
+        }); 
+               
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
+    public void exit()
     {
-        // put your code here
-        return x + y;
+        MyMsgBox mbox = new MyMsgBox("Login Out OJSS Successed!");
+        System.exit(0);
     }
+    
+    public void init() throws Exception
+    {
+        this.setTitle("MVF SYSTEM");
+        this.setSize(600, 300);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);  
+        this.setVisible(true);
+        this.setResizable(false);  
+    }  
+    
+    public void initcate()
+    {
+        try
+        {
+            jtfcate.removeAllItems(); 
+            String strsql="select distinct([cate]) from [categories] order by [cate] ";
+			 
+            ConnectAccess ca=new ConnectAccess();  
+            ca.OpenAccessFile();
+            ResultSet rs = ca.GetSet(strsql);
+            while (rs.next()) 
+            {
+                jtfcate.addItem(rs.getString(1));  
+            }
+            rs.close();
+            ca.CloseAccessFile();
+            this.jtfcate.setSelectedItem("");
+        } 
+        catch(Exception e)
+        {
+            MyMsgBox mbox = new MyMsgBox(e.getMessage());
+        }
+    }
+
+	public void getProduct()
+    {
+        try
+        {
+            this.jtfcate.setSelectedItem("");
+			this.jtfname.setText("");
+			
+            String strsql="select [Name],[cate],[name],[price] from [Seekers] where [name]='"+this.customer.name+"'";
+			 
+            ConnectAccess ca=new ConnectAccess();  
+            ca.OpenAccessFile();
+            ResultSet rs = ca.GetSet(strsql);
+            while (rs.next()) 
+            {
+                this.jtfcate.setSelectedItem(rs.getString(2));
+				this.jtfname.setText(rs.getString(3));
+				
+            }
+            rs.close();
+            ca.CloseAccessFile();
+			this.customer.cate = this.jtfcate.getSelectedItem().toString();
+			this.customer.name = this.jtfname.getText();
+			
+        } 
+        catch(Exception e)
+        {
+            MyMsgBox mbox = new MyMsgBox(e.getMessage());
+        }
+    }
+
+   
+	public void modify()
+    {
+        try
+        {
+            String strsql="update [customer] set [cate] = '"+this.jtfcate.getSelectedItem().toString()
+				+"', name ='"+this.jtfname.getText()+"',saraly = "+this.jtfsarary.getText()+" where [name] ='"+this.seeker.name+"'";
+			 
+            ConnectAccess ca=new ConnectAccess();  
+            ca.OpenAccessFile();
+			if(ca.UpdateMsg(strsql))
+			{
+			    MyMsgBox mbox = new MyMsgBox("Sussesful!");
+			}
+			else
+			{
+			    MyMsgBox mbox = new MyMsgBox("Failed!");
+			}
+            ca.CloseAccessFile();
+			getSkill();
+        } 
+        catch(Exception e)
+        {
+            MyMsgBox mbox = new MyMsgBox(e.getMessage());
+        }
+    }
+
+】
+public void search()
+    {
+        try
+        {
+        JobSearchUI job = new JobSearchUI(this.seeker);
+				   job.init();
+        } 
+        catch(Exception e)
+        {
+            MyMsgBox mbox = new MyMsgBox(e.getMessage());
+        }
+    }
+
+
 }
