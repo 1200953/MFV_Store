@@ -12,7 +12,7 @@ public class Customer
     public String level;
     public String address;
     public String email;
-    
+    public String paymentinfo;
 
     /**
      * Constructor for objects of class Customer
@@ -20,18 +20,19 @@ public class Customer
     public Customer()
     {
         // initialise instance variables
-        x = 0;
+        this.name = "";
+        this.level = "";
+        this.address = "";
+        this.email = "";
+        this.paymentinfo = "";
     }
 
-    /**
-     * An example of a method - replace this comment with your own
-     *
-     * @param  y  a sample parameter for a method
-     * @return    the sum of x and y
-     */
-    public int sampleMethod(int y)
+    public Customer(String name, String level, String address, String email, String paymentinfo)
     {
-        // put your code here
-        return x + y;
+        this.name = name;
+        this.level = level;
+        this.address = address;
+        this.email = email;
+        this.paymentinfo = paymentinfo;
     }
 }
