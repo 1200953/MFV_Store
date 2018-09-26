@@ -10,6 +10,8 @@ public class Account
     // instance variables - replace the example below with your own
     public String verifyid;
     public String password;
+    public String level;
+    public String author;
 
     /**
      * Constructor for objects of class Account
@@ -19,11 +21,15 @@ public class Account
         // initialise instance variables
         this.verifyid = "";
         this.password ="";
+        this.level="";
+        this.author="";
     }
 
-    public Account(String verifyid, String password)
+    public Account(String verifyid, String password, String level, String author)
     {
         this.verifyid = verifyid;
         this.password = password;
+        this.level = level;
+        this.author = author;
     }
 }

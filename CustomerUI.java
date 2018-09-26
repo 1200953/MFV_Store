@@ -236,7 +236,7 @@ public class CustomerUI extends JDialog
         }
     }
 
-】
+
 public void search()
     {
         try
