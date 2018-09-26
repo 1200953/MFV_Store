@@ -32,4 +32,16 @@ public class Account
         this.level = level;
         this.author = author;
     }
+    
+    public boolean Vldtpwd(String verifyid, String password)
+    {
+        if(verifyid == this.verifyid && password == this.password)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

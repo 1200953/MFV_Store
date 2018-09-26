@@ -33,6 +33,7 @@ public class Product
        
     
     }
+    
     public Product(String name, String category, int price, String provider, String stock, int shelflife)  
     {
         this.pname = pname;
@@ -44,4 +45,14 @@ public class Product
         this.arriveDate = arriveDate;
     }    
         
+    public Product(Product product)  
+    {
+        this.pname = product.pname;
+        this.category = product.category;
+        this.price = product.price;
+        this.provider = product.provider;
+        this.stock = product.stock;
+        this.shelflife = product.shelflife;
+        this.arriveDate = product.arriveDate;
+    }
 }

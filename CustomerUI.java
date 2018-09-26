@@ -12,7 +12,7 @@ import java.io.File;
 public class CustomerUI extends JDialog
 {
     // instance variables - replace the example below with your own
-    public CUser customer;
+    public Customer customer;
     public JPanel jp1,jp2;
     public JLabel jlbcate,jlbname,jlbnewcate;
     public JTextField jtfname;
@@ -26,11 +26,11 @@ public class CustomerUI extends JDialog
      */
     public CustomerUI(Account account)
     {
-        this.customer = new CUser(account);
+        this.customer = new Customer(account);
         this.setModal(true);
         jp1 = new JPanel();
         jp2 = new JPanel();
-        jp3 = new JPanel();
+        
         
         
         jbback=new JButton("Back");
@@ -52,7 +52,7 @@ public class CustomerUI extends JDialog
         this.setLayout(new GridLayout(2, 1));
         
         initcate();
-	getSkill();
+	
           
         jp1.add(jlbcate);  
         jp1.add(jtfcate); 
@@ -172,7 +172,7 @@ public void search()
     {
         try
         {
-        JobSearchUI job = new JobSearchUI(this.seeker);
+        ProductSearchUI product = new ProductSearchUI(this.customer);
 				   job.init();
         } 
         catch(Exception e)
