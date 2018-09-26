@@ -12,8 +12,8 @@ import java.io.File;
 public class CustomerUI extends JDialog
 {
     // instance variables - replace the example below with your own
-    public Customer customer;
-    public JPanel jp1,jp2,jp3;
+    public CUser customer;
+    public JPanel jp1,jp2;
     public JLabel jlbcate,jlbname,jlbnewcate;
     public JTextField jtfname;
     JComboBox  jtfcate;
@@ -26,7 +26,7 @@ public class CustomerUI extends JDialog
      */
     public CustomerUI(Account account)
     {
-        this.customer = new Customer(account);
+        this.customer = new CUser(account);
         this.setModal(true);
         jp1 = new JPanel();
         jp2 = new JPanel();
@@ -37,7 +37,7 @@ public class CustomerUI extends JDialog
         jbexit=new JButton("Exit");
 		
         
-        jbmodify=new JButton("Modify");
+        
                
         jlbcate=new JLabel("Category");
         jlbname=new JLabel("ProductName");
@@ -49,7 +49,7 @@ public class CustomerUI extends JDialog
         jtfname =new JTextField(10);
         
           
-        this.setLayout(new GridLayout(3, 1));
+        this.setLayout(new GridLayout(2, 1));
         
         initcate();
 	getSkill();
@@ -57,17 +57,16 @@ public class CustomerUI extends JDialog
         jp1.add(jlbcate);  
         jp1.add(jtfcate); 
         jp1.add(jlbname);  
-        jp1.add(jtfname);
-        jp2.add(jbmodify); 
+        jp1.add(jtfname); 
         jp1.add(jbsearch);
         //jp3.add(jbsend);
         ;
-        jp3.add(jbback);
-        jp3.add(jbexit); 
+        jp2.add(jbback);
+        jp2.add(jbexit); 
           
         this.add(jp1);  
         this.add(jp2);  
-        this.add(jp3); 
+         
           
 
 	jtfcate.setEditable(true);
@@ -122,20 +121,7 @@ public class CustomerUI extends JDialog
         }); 
           
         
-        jbmodify.addActionListener(new ActionListener() 
-        {
-           @Override
-            public void actionPerformed(ActionEvent e) {
-                try
-                {
-                    modify();
-                }
-                catch(Exception ex)
-                {
-                    MyMsgBox mbox = new MyMsgBox(ex.getMessage());
-                }
-            }
-        }); 
+        
                
     }
 
@@ -179,62 +165,7 @@ public class CustomerUI extends JDialog
         }
     }
 
-	public void getProduct()
-    {
-        try
-        {
-            this.jtfcate.setSelectedItem("");
-			this.jtfname.setText("");
-			
-            String strsql="select [Name],[cate],[name],[price] from [Seekers] where [name]='"+this.customer.name+"'";
-			 
-            ConnectAccess ca=new ConnectAccess();  
-            ca.OpenAccessFile();
-            ResultSet rs = ca.GetSet(strsql);
-            while (rs.next()) 
-            {
-                this.jtfcate.setSelectedItem(rs.getString(2));
-				this.jtfname.setText(rs.getString(3));
-				
-            }
-            rs.close();
-            ca.CloseAccessFile();
-			this.customer.cate = this.jtfcate.getSelectedItem().toString();
-			this.customer.name = this.jtfname.getText();
-			
-        } 
-        catch(Exception e)
-        {
-            MyMsgBox mbox = new MyMsgBox(e.getMessage());
-        }
-    }
 
-   
-	public void modify()
-    {
-        try
-        {
-            String strsql="update [customer] set [cate] = '"+this.jtfcate.getSelectedItem().toString()
-				+"', name ='"+this.jtfname.getText()+"',saraly = "+this.jtfsarary.getText()+" where [name] ='"+this.seeker.name+"'";
-			 
-            ConnectAccess ca=new ConnectAccess();  
-            ca.OpenAccessFile();
-			if(ca.UpdateMsg(strsql))
-			{
-			    MyMsgBox mbox = new MyMsgBox("Sussesful!");
-			}
-			else
-			{
-			    MyMsgBox mbox = new MyMsgBox("Failed!");
-			}
-            ca.CloseAccessFile();
-			getSkill();
-        } 
-        catch(Exception e)
-        {
-            MyMsgBox mbox = new MyMsgBox(e.getMessage());
-        }
-    }
 
 
 public void search()
